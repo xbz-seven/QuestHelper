@@ -215,7 +215,7 @@ async function joinQuest(quest: Quest): Promise<boolean> {
             const res = await api.post({
                 url: `/quests/${quest.id}/enroll`,
                 body: {
-                    location: 11,
+                    location: 1,
                     is_targeted: false,
                     metadata_raw: null,
                     metadata_sealed: null,
@@ -251,6 +251,21 @@ async function joinQuest(quest: Quest): Promise<boolean> {
 
     debug(`Enrollment failed for "${questTitle}" after ${maxAttempts} attempts`);
     return false;
+}
+
+async function joinQuest(quest: Quest: Promise<boolean {
+    try {
+        const res = await api.post({
+            url: `/quests/&{quest.id}/claim`,
+            body: {location:1}
+        });
+        debug(`Claimed "${quest.config.messages.questName}`);
+        return true;
+    } catch (e: any) {
+
+        debug(`Claim failed for "$quest.config.mmessages.questName}":`, e?.body?.message ?? e)'
+            return false;
+    }
 }
 
 async function autoJoinQuests(): Promise<boolean> {
@@ -389,6 +404,7 @@ function processNextQuest() {
                     });
                 }
 
+                await claimQuest(quest)
                 debug(`Done: ${questTitle}`);
             } catch (e) {
                 debug(`Error with "${questTitle}":`, e);
